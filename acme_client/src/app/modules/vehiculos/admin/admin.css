@@ -1,0 +1,17 @@
+.resumen-container {
+      display: flex;
+      flex-direction: column;
+      max-width: 300px;
+      margin: 16px;
+    }
+    label {
+      margin-bottom: 8px;
+    }
+    input, button {
+      margin-bottom: 12px;
+      padding: 8px;
+      font-size: 14px;
+    }
+    button {
+      cursor: pointer;
+    }

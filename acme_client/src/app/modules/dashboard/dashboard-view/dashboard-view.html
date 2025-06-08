@@ -1,0 +1,99 @@
+<div class="dashboard-container">
+  <!-- Controles de filtrado -->
+  <div class="filter-controls">
+    <select [(ngModel)]="selectedVin" (change)="applyFilter()">
+      <option value="">Todos los dispositivos</option>
+      <option *ngFor="let vin of availableVins" [value]="vin">{{ vin }}</option>
+    </select>
+    
+    <button (click)="clearFilter()">Limpiar filtro</button>
+    
+    <div class="connection-status" [class.connected]="connectionStatus" [class.disconnected]="!connectionStatus">
+      {{ connectionStatus ? 'Conectado' : 'Desconectado' }}
+      <button *ngIf="!connectionStatus" (click)="reconnect()">Reconectar</button>
+    </div>
+  </div>
+
+  <!-- Indicador de carga -->
+  <div *ngIf="loading" class="loading-indicator">
+    Cargando datos...
+  </div>
+
+  <!-- Gráficos -->
+  <div class="charts-grid">
+    <!-- Gráfico de Carga -->
+    <div class="chart-container">
+      <h3>Estado de Carga</h3>
+      <apx-chart 
+        [series]="cargaChartOptions.series" 
+        [chart]="cargaChartOptions.chart"
+        [colors]="cargaChartOptions.colors"
+        [xaxis]="cargaChartOptions.xaxis" 
+        [yaxis]="cargaChartOptions.yaxis"
+        [tooltip]="cargaChartOptions.tooltip">
+      </apx-chart>
+    </div>
+
+    <!-- Gráfico de Kilómetros -->
+    <div class="chart-container">
+      <h3>Kilometraje</h3>
+      <apx-chart 
+        [series]="kilometrosChartOptions.series" 
+        [chart]="kilometrosChartOptions.chart"
+        [colors]="kilometrosChartOptions.colors"
+        [xaxis]="kilometrosChartOptions.xaxis" 
+        [yaxis]="kilometrosChartOptions.yaxis"
+        [tooltip]="kilometrosChartOptions.tooltip">
+      </apx-chart>
+    </div>
+
+    <!-- Estado Activo / Gráfico OnOff -->
+    <div class="chart-container">
+  <h3>Estado del Vehículo</h3>
+  <div *ngIf="selectedVin" class="vehicle-status">
+    Vehículo {{ filteredEstados[0]?.OnOff ? 'Activo' : 'Inactivo' }}: 
+    {{ currentCharge }}%
+  </div>
+  <apx-chart 
+    *ngIf="!selectedVin"
+    [series]="onOffChartOptions.series" 
+    [chart]="onOffChartOptions.chart"
+    [plotOptions]="onOffChartOptions.plotOptions"
+    [xaxis]="onOffChartOptions.xaxis"
+    [yaxis]="onOffChartOptions.yaxis"
+    [tooltip]="onOffChartOptions.tooltip"
+    [dataLabels]="onOffChartOptions.dataLabels"
+    [legend]="onOffChartOptions.legend"
+    [colors]="onOffChartOptions.colors">
+  </apx-chart>
+</div>
+
+
+    <!-- Gráfico de Errores -->
+    <div class="chart-container">
+  <h3>Errores Detectados</h3>
+  <apx-chart 
+    [series]="erroresChartOptions.series" 
+    [chart]="erroresChartOptions.chart"
+    [xaxis]="erroresChartOptions.xaxis"
+    [plotOptions]="erroresChartOptions.plotOptions"
+    [tooltip]="erroresChartOptions.tooltip">
+  </apx-chart>
+</div>
+
+    <!-- Gráfico de Ranking (solo sin filtro) -->
+    <div class="chart-container" *ngIf="!selectedVin">
+      <h3>Ranking por Kilómetros</h3>
+      <apx-chart 
+        [series]="rankingChartOptions.series" 
+        [chart]="rankingChartOptions.chart"
+        [xaxis]="rankingChartOptions.xaxis" 
+        [yaxis]="rankingChartOptions.yaxis"
+        [title]="rankingChartOptions.title"
+        [markers]="rankingChartOptions.markers"
+        [fill]="rankingChartOptions.fill"
+        [stroke]="rankingChartOptions.stroke">
+      </apx-chart>
+    </div>
+  </div>
+</div>

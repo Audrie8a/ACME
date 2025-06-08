@@ -1,0 +1,109 @@
+<h2 class="titulo">Resumen Diario</h2>
+
+<form (ngSubmit)="onFilter()" class="filtros">
+
+  <!-- Rango de fechas -->
+  <mat-form-field appearance="outline">
+    <mat-label>Rango de fechas</mat-label>
+
+    <mat-date-range-input [rangePicker]="rangePicker">
+      <input
+        matStartDate
+        placeholder="MM/dd/yyyy"
+        [(ngModel)]="FechaIni"
+        name="fechaIni">
+      <input
+        matEndDate
+        placeholder="MM/dd/yyyy"
+        [(ngModel)]="FechaFin"
+        name="fechaFin">
+    </mat-date-range-input>
+
+    <mat-datepicker-toggle matSuffix [for]="rangePicker"></mat-datepicker-toggle>
+
+    <mat-date-range-picker #rangePicker startView="multi-year">
+      <mat-date-range-picker-actions>
+        <button mat-button matDateRangePickerCancel>
+          Cancelar
+        </button>
+        <button mat-raised-button matDateRangePickerApply>
+          Aplicar
+        </button>
+      </mat-date-range-picker-actions>
+    </mat-date-range-picker>
+  </mat-form-field>
+
+  <!-- VIN opcional -->
+  <mat-form-field appearance="outline">
+    <mat-label>VIN (opcional)</mat-label>
+    <input
+      matInput
+      [(ngModel)]="vin"
+      name="vin"
+      placeholder="Ej. VIN00001">
+  </mat-form-field>
+
+  <button type="submit" mat-raised-button color="primary">
+    Filtrar
+  </button>
+</form>
+
+<mat-card class="custom-card">
+  <mat-table [dataSource]="dataSource" class="custom-table">
+    <!-- VIN -->
+    <ng-container matColumnDef="vin">
+      <mat-header-cell *matHeaderCellDef>VIN</mat-header-cell>
+      <mat-cell *matCellDef="let r">{{ r.vin }}</mat-cell>
+    </ng-container>
+    <!-- Fecha -->
+    <ng-container matColumnDef="fecha">
+      <mat-header-cell *matHeaderCellDef>Fecha</mat-header-cell>
+      <mat-cell *matCellDef="let r">{{ r.fecha | date : "dd/MM/yyyy"}}</mat-cell>
+    </ng-container>
+    <!-- Off Count -->
+    <ng-container matColumnDef="off_count">
+      <mat-header-cell *matHeaderCellDef>Off Count</mat-header-cell>
+      <mat-cell *matCellDef="let r">{{ r.off_count }}</mat-cell>
+    </ng-container>
+    <!-- % Activo -->
+    <ng-container matColumnDef="porcentaje_activo">
+      <mat-header-cell *matHeaderCellDef>% Activo</mat-header-cell>
+      <mat-cell *matCellDef="let r">{{ r.porcentaje_activo | number:'1.2-2' }}%</mat-cell>
+    </ng-container>
+    <!-- Error Count -->
+    <ng-container matColumnDef="error_count">
+      <mat-header-cell *matHeaderCellDef>Error Count</mat-header-cell>
+      <mat-cell *matCellDef="let r">{{ r.error_count }}</mat-cell>
+    </ng-container>
+    <!-- Km Recorridos -->
+    <ng-container matColumnDef="km_recorridos">
+      <mat-header-cell *matHeaderCellDef>Km</mat-header-cell>
+      <mat-cell *matCellDef="let r">{{ r.km_recorridos/800 | number:'1.2-2'}}</mat-cell>
+    </ng-container>
+    <!-- Prom Activo (s) -->
+    <ng-container matColumnDef="prom_tiempo_activo">
+      <mat-header-cell *matHeaderCellDef>Prom Activo (hr)</mat-header-cell>
+      <mat-cell *matCellDef="let r">{{ r.prom_tiempo_activo/60 | number:'1.2-2' }}</mat-cell>
+    </ng-container>
+    <!-- Prom Desconectado (s) -->
+    <ng-container matColumnDef="prom_tiempo_desconectado">
+      <mat-header-cell *matHeaderCellDef>Prom Desc (hr)</mat-header-cell>
+      <mat-cell *matCellDef="let r">{{ r.prom_tiempo_desconectado/60 | number:'1.2-2' }}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+</mat-card>
+
+<mat-card >
+  <apx-chart
+    [series]="chartOptions.series"
+    [chart]="chartOptions.chart"
+    [plotOptions]="chartOptions.plotOptions"
+    [xaxis]="chartOptions.xaxis"
+    [title]="chartOptions.title">
+  </apx-chart>
+</mat-card>
+
+

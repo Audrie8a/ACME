@@ -1,0 +1,32 @@
+.login-card {
+  max-width: 400px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background-color: #1e1e2f;
+  color: #fff;
+  border-radius: 8px;
+}
+
+.titulo {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.acciones {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #62cfc2b6;
+}
+
+mat-icon {
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+

@@ -1,0 +1,69 @@
+<h2 class="titulo">Listado de Vehículos</h2>
+
+<mat-card class="custom-card">
+  <button (click)="exportarCSV()" class="btn-exportar">
+    <span style="display: flex; align-items: center;">
+    <mat-icon>download</mat-icon>
+    Exportar CSV</span>
+  </button>
+  <mat-table [dataSource]="vehiculos" class="custom-table">
+
+    <ng-container matColumnDef="vin">
+      <mat-header-cell *matHeaderCellDef> VIN </mat-header-cell>
+      <mat-cell *matCellDef="let v"> {{ v.vin }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="modelo">
+      <mat-header-cell *matHeaderCellDef> Modelo </mat-header-cell>
+      <mat-cell *matCellDef="let v"> {{ v.modelo }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="anio">
+      <mat-header-cell *matHeaderCellDef> Año </mat-header-cell>
+      <mat-cell *matCellDef="let v"> {{ v.anio }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="sucursal">
+      <mat-header-cell *matHeaderCellDef> Sucursal </mat-header-cell>
+      <mat-cell *matCellDef="let v"> <a routerLink="/sucursal" routerLinkActive="active">{{ v.sucursal }}</a>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="fecha_venta">
+      <mat-header-cell *matHeaderCellDef> Fecha Venta </mat-header-cell>
+      <mat-cell *matCellDef="let v"> {{ v.fecha_venta | date:'shortDate' }} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="usuario">
+      <mat-header-cell *matHeaderCellDef> Propietario </mat-header-cell>
+      <mat-cell *matCellDef="let v"> <a routerLink="/propietarios" routerLinkActive="active">{{v.usuario | uppercase}}
+        </a></mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="accion">
+      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+      <mat-cell *matCellDef="let v">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>settings</mat-icon>
+        </button>
+
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="editar(v)">
+            <mat-icon>edit</mat-icon>
+            <span>Editar</span>
+          </button>
+          <button mat-menu-item (click)="eliminar(v)">
+            <mat-icon>delete</mat-icon>
+            <span>Eliminar</span>
+          </button>
+        </mat-menu>
+
+
+        <button color="primary">Tracking</button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+  </mat-table>
+</mat-card>

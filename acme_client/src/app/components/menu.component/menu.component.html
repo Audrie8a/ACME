@@ -1,0 +1,23 @@
+<nav class="menu">
+  <a routerLink="/login" routerLinkActive="active">Login</a>
+
+  <!-- Vehículos y Admin solo si no estamos en /dashboard -->
+  <ng-container *ngIf="!router.url.startsWith('/dashboard')">
+    <a routerLink="/vehiculos/vehiculos" routerLinkActive="active">
+      Vehículos
+    </a>
+    <a routerLink="/vehiculos/admin" routerLinkActive="active">
+      Admin
+    </a>
+    <a routerLink="/vehiculos/dataHistorica" routerLinkActive="active">
+      Data Histórica
+    </a>
+  </ng-container>
+
+  <!-- Dashboard solo si no empezamos con /vehiculos -->
+  <a *ngIf="!router.url.startsWith('/vehiculos')"
+     routerLink="/dashboard/dashboard"
+     routerLinkActive="active">
+    Dashboard
+  </a>
+</nav>
